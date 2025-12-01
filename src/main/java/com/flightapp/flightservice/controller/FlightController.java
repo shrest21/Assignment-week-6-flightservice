@@ -1,7 +1,7 @@
 package com.flightapp.flightservice.controller;
 
-import com.flightapp.flightbookingwebflux.model.Flight;
-import com.flightapp.flightbookingwebflux.service.FlightService;
+import com.flightapp.flightservice.model.Flight;
+import com.flightapp.flightservice.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -29,4 +29,19 @@ public class FlightController {
     public Flux<Flight> all() {
         return service.getAllFlights();
     }
+
+    @GetMapping("/{id}")
+    public Mono<Flight> find(@PathVariable String id) {
+        return service.getFlightById(id);
+    }
+    @PostMapping("/{id}/reserve")
+    public Mono<Void> reserve(@PathVariable String id, @RequestParam int seats) {
+        return service.reserveSeats(id, seats);
+    }
+
+    @PostMapping("/{id}/release")
+    public Mono<Void> release(@PathVariable String id, @RequestParam int seats) {
+        return service.releaseSeats(id, seats);
+    }
+
 }
